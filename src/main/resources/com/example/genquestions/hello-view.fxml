@@ -17,13 +17,13 @@
     <VBox>
         <Label text="Input"/>
         <HBox>
-            <TextField fx:id="textFieldInput"/>
+            <TextField fx:id="textFieldInput" text="C:\Users\moska\Downloads\portugal.xlsx"/>
             <Button fx:id="btnFile" text="File" onAction="#onChoiceFileButtonClick" />
         </HBox>
     </VBox>
     <VBox>
         <Label text="Output"/>
-        <TextField fx:id="textFieldOutput"/>
+        <TextField fx:id="textFieldOutput" text="test"/>
     </VBox>
     <ProgressBar fx:id="progressBar" visible="false" />
     <Button fx:id="btnGenerate" text="Generate" onAction="#onGenerateButtonClick"/>
