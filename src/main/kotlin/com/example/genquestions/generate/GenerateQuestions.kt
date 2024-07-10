@@ -1,6 +1,5 @@
 package com.example.genquestions.generate
 
-import com.example.genquestions.TestJSON
 import com.example.genquestions.model.MySheet
 import com.example.genquestions.model.Question
 import com.example.genquestions.model.TypeOfQuestions
@@ -8,7 +7,6 @@ import com.example.genquestions.model.languages
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.apache.poi.ss.usermodel.Row
-import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.File
@@ -29,13 +27,19 @@ object GenerateQuestions {
         val sheet = workbook.getSheetAt(MySheet.Result.index)
         var field = ""
         var index = 0
+        var level = 1
         while (true) {
             val row = sheet.getRow(++index)
             field = row.getCell(1).toString()
-            if (field == TITLE_LEVEL) break
+            if (field == TITLE_LEVEL) {
+                println("level -> ${++level}")
+                continue
+            }
+            if (field.isEmpty()) continue
             val question = generateQuestion(workbook, field, row)
             println("-> $index----------")
             println("-> $question")
+            if (level == 51) break
         }
 //        val outputFile = FileWriter("$output/1.json")
 //        outputFile.write("{{{}}}")

@@ -8,6 +8,7 @@ import javafx.scene.control.ProgressBar
 import javafx.scene.control.TextField
 import javafx.stage.FileChooser
 import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 
 class HelloController {
@@ -23,7 +24,10 @@ class HelloController {
     private lateinit var btnGenerate: Button
 
     private val fileChooser = FileChooser()
-    private val scope = CoroutineScope(Job())
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        println("Handle $exception in CoroutineExceptionHandler")
+    }
+    private val scope = CoroutineScope(Job() + coroutineExceptionHandler)
 
     init {
         fileChooser.extensionFilters.addAll(

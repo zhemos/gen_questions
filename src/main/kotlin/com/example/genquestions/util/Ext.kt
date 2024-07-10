@@ -9,11 +9,11 @@ fun String.toNumber(): Int {
     return result.value.toInt()
 }
 
-fun Cell.toCellString(): String {
+fun Cell?.toCellString(): String {
     return try {
         this.toString().toDouble().toInt().toString()
     } catch (_: Exception) {
-        this.toString()
+        this?.toString() ?: ""
     }
 }
 

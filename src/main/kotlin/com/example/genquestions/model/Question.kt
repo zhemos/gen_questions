@@ -150,13 +150,18 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
         override val name: String get() = "пятилетка"
         override val absoluteName: String get() = "5years"
         override fun getInfo(row: Row): String {
+            println("!!!")
             return ""
         }
         override fun getDefaultData(row: Row): Question.Data {
+            val index = row.getCell(1).toString().toNumber()
+            val rowFiveYears = workbook.getSheetAt(MySheet.FiveYears.index).getRow(index - 1)
             return Question.Data(
-                title = "",
-                correct = "",
-                incorrect = emptyList(),
+                title = rowFiveYears?.getCell(0)?.toString() ?: "",
+                correct = rowFiveYears.getCell(1).toCellString(),
+                incorrect = listOf(
+                    rowFiveYears.getCell(2).toCellString(), rowFiveYears.getCell(3).toCellString(), rowFiveYears.getCell(4).toCellString(),
+                ),
             )
         }
         override fun getData(lang: String, row: Row): Question.Data {
