@@ -17,7 +17,7 @@
     <VBox>
         <Label text="Input"/>
         <HBox>
-            <TextField fx:id="textFieldInput" text="C:\Users\moska\Downloads\portugal.xlsx"/>
+            <TextField fx:id="textFieldInput" text="C:\Users\moska\Downloads\spain.xlsx"/>
             <Button fx:id="btnFile" text="File" onAction="#onChoiceFileButtonClick" />
         </HBox>
     </VBox>
@@ -26,5 +26,9 @@
         <TextField fx:id="textFieldOutput" text="test"/>
     </VBox>
     <ProgressBar fx:id="progressBar" visible="false" />
-    <Button fx:id="btnGenerate" text="Generate" onAction="#onGenerateButtonClick"/>
+    <HBox>
+        <Button fx:id="btnGenerate" text="Generate" onAction="#onGenerateButtonClick"/>
+        <Label prefWidth="15" />
+        <Button fx:id="btnGetQuestions" text="Get Questions" onAction="#onGetQuestionsButtonClick"/>
+    </HBox>
 </VBox>

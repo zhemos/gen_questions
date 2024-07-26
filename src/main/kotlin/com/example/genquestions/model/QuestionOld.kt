@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Workbook
 
-data class Question(
+data class QuestionOld(
     val type: String,
     val info: String,
     val default: Data,
@@ -27,8 +27,8 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
     abstract val name: String
     abstract val absoluteName: String
     abstract fun getInfo(row: Row): String
-    abstract fun getDefaultData(row: Row): Question.Data
-    abstract fun getData(lang: String, row: Row): Question.Data
+    abstract fun getDefaultData(row: Row): QuestionOld.Data
+    abstract fun getData(lang: String, row: Row): QuestionOld.Data
 
     class Logo(workbook: Workbook) : TypeOfQuestions(workbook) {
         override val name: String get() = "лого"
@@ -36,8 +36,8 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
         override fun getInfo(row: Row): String {
             return "${row.getCell(3).toString().lowercase()}_hide$IMAGE_FORMAT".normalize()
         }
-        override fun getDefaultData(row: Row): Question.Data {
-            return Question.Data(
+        override fun getDefaultData(row: Row): QuestionOld.Data {
+            return QuestionOld.Data(
                 title = "Which club's logo is shown in the photo?",
                 correct = row.getCell(3).toCellString(),
                 incorrect = listOf(
@@ -45,15 +45,15 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
                 ),
             )
         }
-        override fun getData(lang: String, row: Row): Question.Data {
+        override fun getData(lang: String, row: Row): QuestionOld.Data {
             return if (lang == "ru") {
-                Question.Data(
+                QuestionOld.Data(
                     title = "Логотип какого клуба изображен на фото?",
                     correct = "",
                     incorrect = emptyList(),
                 )
             } else {
-                Question.Data(
+                QuestionOld.Data(
                     title = "",
                     correct = "",
                     incorrect = emptyList(),
@@ -68,22 +68,22 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
         override fun getInfo(row: Row): String {
             return ""
         }
-        override fun getDefaultData(row: Row): Question.Data {
-            return Question.Data(
+        override fun getDefaultData(row: Row): QuestionOld.Data {
+            return QuestionOld.Data(
                 title = "",
                 correct = "",
                 incorrect = emptyList(),
             )
         }
-        override fun getData(lang: String, row: Row): Question.Data {
+        override fun getData(lang: String, row: Row): QuestionOld.Data {
             return if (lang == "ru") {
-                Question.Data(
+                QuestionOld.Data(
                     title = "Какой стадион является домашней ареной футбольного клуба ...?",
                     correct = "",
                     incorrect = emptyList(),
                 )
             } else {
-                Question.Data(
+                QuestionOld.Data(
                     title = "",
                     correct = "",
                     incorrect = emptyList(),
@@ -98,22 +98,22 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
         override fun getInfo(row: Row): String {
             return ""
         }
-        override fun getDefaultData(row: Row): Question.Data {
-            return Question.Data(
+        override fun getDefaultData(row: Row): QuestionOld.Data {
+            return QuestionOld.Data(
                 title = "",
                 correct = "",
                 incorrect = emptyList(),
             )
         }
-        override fun getData(lang: String, row: Row): Question.Data {
+        override fun getData(lang: String, row: Row): QuestionOld.Data {
             return if (lang == "ru") {
-                Question.Data(
+                QuestionOld.Data(
                     title = "Из какого города футбольный клуб ...?",
                     correct = "",
                     incorrect = emptyList(),
                 )
             } else {
-                Question.Data(
+                QuestionOld.Data(
                     title = "",
                     correct = "",
                     incorrect = emptyList(),
@@ -126,10 +126,10 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
         override val name: String get() = "общие"
         override val absoluteName: String get() = "common"
         override fun getInfo(row: Row) = ""
-        override fun getDefaultData(row: Row): Question.Data {
+        override fun getDefaultData(row: Row): QuestionOld.Data {
             val index = row.getCell(1).toString().toNumber()
             val rowCommon = workbook.getSheetAt(MySheet.Common.index).getRow(index - 1)
-            return Question.Data(
+            return QuestionOld.Data(
                 title = rowCommon?.getCell(0)?.toString() ?: "",
                 correct = rowCommon.getCell(1).toCellString(),
                 incorrect = listOf(
@@ -137,8 +137,8 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
                 ),
             )
         }
-        override fun getData(lang: String, row: Row): Question.Data {
-            return Question.Data(
+        override fun getData(lang: String, row: Row): QuestionOld.Data {
+            return QuestionOld.Data(
                 title = "",
                 correct = "",
                 incorrect = emptyList(),
@@ -153,10 +153,10 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
             println("!!!")
             return ""
         }
-        override fun getDefaultData(row: Row): Question.Data {
+        override fun getDefaultData(row: Row): QuestionOld.Data {
             val index = row.getCell(1).toString().toNumber()
             val rowFiveYears = workbook.getSheetAt(MySheet.FiveYears.index).getRow(index - 1)
-            return Question.Data(
+            return QuestionOld.Data(
                 title = rowFiveYears?.getCell(0)?.toString() ?: "",
                 correct = rowFiveYears.getCell(1).toCellString(),
                 incorrect = listOf(
@@ -164,8 +164,8 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
                 ),
             )
         }
-        override fun getData(lang: String, row: Row): Question.Data {
-            return Question.Data(
+        override fun getData(lang: String, row: Row): QuestionOld.Data {
+            return QuestionOld.Data(
                 title = "",
                 correct = "",
                 incorrect = emptyList(),
@@ -179,10 +179,10 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
         override fun getInfo(row: Row): String {
             return ""
         }
-        override fun getDefaultData(row: Row): Question.Data {
+        override fun getDefaultData(row: Row): QuestionOld.Data {
             val index = row.getCell(1).toString().toNumber()
             val rowCups = workbook.getSheetAt(MySheet.Cups.index).getRow(index - 1)
-            return Question.Data(
+            return QuestionOld.Data(
                 title = rowCups?.getCell(0)?.toString() ?: "",
                 correct = rowCups.getCell(1).toCellString(),
                 incorrect = listOf(
@@ -190,8 +190,8 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
                 ),
             )
         }
-        override fun getData(lang: String, row: Row): Question.Data {
-            return Question.Data(
+        override fun getData(lang: String, row: Row): QuestionOld.Data {
+            return QuestionOld.Data(
                 title = "",
                 correct = "",
                 incorrect = emptyList(),
@@ -205,10 +205,10 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
         override fun getInfo(row: Row): String {
             return ""
         }
-        override fun getDefaultData(row: Row): Question.Data {
+        override fun getDefaultData(row: Row): QuestionOld.Data {
             val index = row.getCell(1).toString().toNumber()
             val rowCups = workbook.getSheetAt(MySheet.Country.index).getRow(index - 1)
-            return Question.Data(
+            return QuestionOld.Data(
                 title = rowCups?.getCell(0)?.toString() ?: "",
                 correct = rowCups.getCell(1).toCellString(),
                 incorrect = listOf(
@@ -216,8 +216,8 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
                 ),
             )
         }
-        override fun getData(lang: String, row: Row): Question.Data {
-            return Question.Data(
+        override fun getData(lang: String, row: Row): QuestionOld.Data {
+            return QuestionOld.Data(
                 title = "",
                 correct = "",
                 incorrect = emptyList(),
@@ -233,10 +233,10 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
             val rowNat = workbook.getSheetAt(MySheet.Nationality.index).getRow(index - 1)
             return rowNat.getCell(1)?.toString()?.toPicture() ?: ""
         }
-        override fun getDefaultData(row: Row): Question.Data {
+        override fun getDefaultData(row: Row): QuestionOld.Data {
             val index = row.getCell(1).toString().toNumber()
             val rowNat = workbook.getSheetAt(MySheet.Nationality.index).getRow(index - 1)
-            return Question.Data(
+            return QuestionOld.Data(
                 title = "What is the nationality of this player?",
                 correct = rowNat.getCell(2).toCellString(),
                 incorrect = listOf(
@@ -244,15 +244,15 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
                 ),
             )
         }
-        override fun getData(lang: String, row: Row): Question.Data {
+        override fun getData(lang: String, row: Row): QuestionOld.Data {
             return if (lang == "ru") {
-                Question.Data(
+                QuestionOld.Data(
                     title = "Какая национальность у этого игрока?",
                     correct = "",
                     incorrect = emptyList(),
                 )
             } else {
-                Question.Data(
+                QuestionOld.Data(
                     title = "",
                     correct = "",
                     incorrect = emptyList(),
@@ -275,10 +275,10 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
             }
             return career.toString()
         }
-        override fun getDefaultData(row: Row): Question.Data {
+        override fun getDefaultData(row: Row): QuestionOld.Data {
             val index = row.getCell(1).toString().toNumber()
             val rowCareer = workbook.getSheetAt(MySheet.Career.index).getRow(index - 1)
-            return Question.Data(
+            return QuestionOld.Data(
                 title = "Guess the player based on his career",
                 correct = rowCareer.getCell(1).toCellString(),
                 incorrect = listOf(
@@ -286,15 +286,15 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
                 ),
             )
         }
-        override fun getData(lang: String, row: Row): Question.Data {
+        override fun getData(lang: String, row: Row): QuestionOld.Data {
             return if (lang == "ru") {
-                Question.Data(
+                QuestionOld.Data(
                     title = "Угадайте игрока по его карьере",
                     correct = "",
                     incorrect = emptyList(),
                 )
             } else {
-                Question.Data(
+                QuestionOld.Data(
                     title = "",
                     correct = "",
                     incorrect = emptyList(),
@@ -312,7 +312,7 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
         override val absoluteName: String get() = "club"
         override fun getInfo(row: Row): String {
             val index = row.getCell(1).toString().toNumber()
-            val rowClub = workbook.getSheetAt(MySheet.Club.index).getRow(index - 1)
+            val rowClub = workbook.getSheetAt(MySheet.ClubNumberCountry.index).getRow(index - 1)
             val info = Info(
                 club = rowClub.getCell(2).toString().toPicture(),
                 number = rowClub.getCell(3).toCellString(),
@@ -320,10 +320,10 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
             )
             return mapper.writeValueAsString(info)
         }
-        override fun getDefaultData(row: Row): Question.Data {
+        override fun getDefaultData(row: Row): QuestionOld.Data {
             val index = row.getCell(1).toString().toNumber()
-            val rowClub = workbook.getSheetAt(MySheet.Club.index).getRow(index - 1)
-            return Question.Data(
+            val rowClub = workbook.getSheetAt(MySheet.ClubNumberCountry.index).getRow(index - 1)
+            return QuestionOld.Data(
                 title = "Guess the player",
                 correct = rowClub.getCell(4).toCellString(),
                 incorrect = listOf(
@@ -331,15 +331,15 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
                 ),
             )
         }
-        override fun getData(lang: String, row: Row): Question.Data {
+        override fun getData(lang: String, row: Row): QuestionOld.Data {
             return if (lang == "ru") {
-                Question.Data(
+                QuestionOld.Data(
                     title = "Угадайте игрока",
                     correct = "",
                     incorrect = emptyList(),
                 )
             } else {
-                Question.Data(
+                QuestionOld.Data(
                     title = "",
                     correct = "",
                     incorrect = emptyList(),
@@ -357,10 +357,10 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
             val rowPhoto = workbook.getSheetAt(MySheet.Photo.index).getRow(index - 1)
             return rowPhoto.getCell(2).toString().toPicture()
         }
-        override fun getDefaultData(row: Row): Question.Data {
+        override fun getDefaultData(row: Row): QuestionOld.Data {
             val index = row.getCell(1).toString().toNumber()
             val rowPhoto = workbook.getSheetAt(MySheet.Photo.index).getRow(index - 1)
-            return Question.Data(
+            return QuestionOld.Data(
                 title = "Who is in the photo?",
                 correct = rowPhoto.getCell(2).toCellString(),
                 incorrect = listOf(
@@ -368,15 +368,15 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
                 ),
             )
         }
-        override fun getData(lang: String, row: Row): Question.Data {
+        override fun getData(lang: String, row: Row): QuestionOld.Data {
             return if (lang == "ru") {
-                Question.Data(
+                QuestionOld.Data(
                     title = "Кто изображен на фото?",
                     correct = "",
                     incorrect = emptyList(),
                 )
             } else {
-                Question.Data(
+                QuestionOld.Data(
                     title = "",
                     correct = "",
                     incorrect = emptyList(),

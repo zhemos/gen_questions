@@ -19,4 +19,5 @@ module com.example.genquestions {
     opens com.example.genquestions to javafx.fxml;
     exports com.example.genquestions;
     exports com.example.genquestions.model;
+    exports com.example.genquestions.model.category;
 }

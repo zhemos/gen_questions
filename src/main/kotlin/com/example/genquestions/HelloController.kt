@@ -22,12 +22,15 @@ class HelloController {
     private lateinit var btnFile: Button
     @FXML
     private lateinit var btnGenerate: Button
+    @FXML
+    private lateinit var btnGetQuestions: Button
 
     private val fileChooser = FileChooser()
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        println("Handle $exception in CoroutineExceptionHandler")
-    }
-    private val scope = CoroutineScope(Job() + coroutineExceptionHandler)
+//    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+//        println("Handle $exception in CoroutineExceptionHandler")
+//        println("Handle ${exception.message} in CoroutineExceptionHandler")
+//    }
+//    private val scope = CoroutineScope(Job() + coroutineExceptionHandler + Dispatchers.Default)
 
     init {
         fileChooser.extensionFilters.addAll(
@@ -43,20 +46,36 @@ class HelloController {
 
     @FXML
     private fun onGenerateButtonClick() {
+        if (textFieldInput.text.isEmpty()) {
+            Alert(Alert.AlertType.ERROR).show()
+            return
+        }
+        disableElements(true)
+        try {
+            GenerateQuestions.generateQuestions(textFieldInput.text)
+        } catch (e: Exception) {
+            println(e.message)
+            Alert(Alert.AlertType.ERROR, e.message).show()
+        }
+        finally {
+            disableElements(false)
+        }
+    }
+
+    @FXML
+    private fun onGetQuestionsButtonClick() {
         if (textFieldInput.text.isEmpty() || textFieldOutput.text.isEmpty()) {
             Alert(Alert.AlertType.ERROR).show()
             return
         }
         disableElements(true)
-        scope.launch {
-            try {
-                GenerateQuestions.generate(textFieldInput.text, textFieldOutput.text)
-            } catch (e: Exception) {
-                Alert(Alert.AlertType.ERROR).show()
-            }
-            finally {
-                disableElements(false)
-            }
+        try {
+            GenerateQuestions.generate(textFieldInput.text, textFieldOutput.text)
+        } catch (e: Exception) {
+            Alert(Alert.AlertType.ERROR, e.message).show()
+        }
+        finally {
+            disableElements(false)
         }
     }
 
@@ -65,6 +84,7 @@ class HelloController {
         textFieldOutput.isDisable = isDisable
         btnFile.isDisable = isDisable
         btnGenerate.isDisable = isDisable
+        btnGetQuestions.isDisable = isDisable
         progressBar.isVisible = isDisable
     }
 }
