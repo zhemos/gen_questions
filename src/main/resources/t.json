@@ -1,0 +1,18 @@
+[
+  {
+    "iso": "gb",
+    "names": {
+      "en": "England",
+      "fr": "Angleterre",
+      "ru": "Англия"
+    }
+  },
+  {
+    "iso": "fr",
+    "names": {
+      "en": "France",
+      "fr": "France",
+      "ru": "Франция"
+    }
+  }
+]

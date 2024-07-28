@@ -12,7 +12,7 @@ class HelloApplication : Application() {
         HelloApplication.stage = stage
         val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("hello-view.fxml"))
         val scene = Scene(fxmlLoader.load(), 320.0, 240.0)
-        stage.title = "Hello!"
+        stage.title = "Question parser!"
         stage.scene = scene
         stage.show()
     }

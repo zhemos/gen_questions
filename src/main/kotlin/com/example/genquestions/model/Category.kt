@@ -1,7 +1,6 @@
 package com.example.genquestions.model
 
-import com.example.genquestions.model.category.ClubNumberCountryCategory
-import com.example.genquestions.model.category.PhotoCategory
+import com.example.genquestions.model.category.*
 import com.example.genquestions.model.question.Question
 import com.example.genquestions.util.toCellString
 import com.example.genquestions.util.toCountryCode
@@ -16,7 +15,7 @@ abstract class Category(workbook: Workbook) {
     abstract val type: String
     abstract val translateTitles: Map<Language, String>
 
-    private val languages: List<Language> = listOf(Russian)
+    private val languages: List<Language> = Language.values().toList()
     private val sheet = workbook.getSheet(mySheet.name)
     protected val mapper = ObjectMapper()
 
@@ -43,10 +42,17 @@ abstract class Category(workbook: Workbook) {
     }
 
     companion object {
-        fun build(workbook: Workbook, name: String): Category {
+        fun build(workbook: Workbook, name: String, countries: List<Country>, topic: Topic): Category {
             return when (name) {
+                MySheet.Clubs.name -> ClubsCategory(topic, workbook)
+                MySheet.Recently.name -> RecentlyCategory(workbook)
+                MySheet.Common.name -> CommonCategory(workbook)
+                MySheet.Cups.name -> CupsCategory(workbook)
+                MySheet.NationalTeam.name -> NationalTeamCategory(workbook)
+                MySheet.Nationality.name -> NationalityCategory(countries, topic, workbook)
+                MySheet.Career.name -> CareerCategory(workbook)
+                MySheet.ClubNumberCountry.name -> ClubNumberCountryCategory(countries, workbook)
                 MySheet.Photo.name -> PhotoCategory(workbook)
-                MySheet.ClubNumberCountry.name -> ClubNumberCountryCategory(workbook)
                 else -> error("unknown category name")
             }
         }

@@ -45,7 +45,7 @@ object GenerateQuestions {
     }
 
     @Throws
-    fun generateQuestions(input: String) {
+    fun generateQuestions(input: String, countries: List<Country>, topic: Topic) {
         println(input)
         val inputFile = File(input)
         val fis = FileInputStream(inputFile)
@@ -59,8 +59,8 @@ object GenerateQuestions {
             categoriesOfCount[cellCategoryName] = cellCount.toInt()
         }
         val questions = ArrayList<Question>(categoriesOfCount.values.sum())
-        val category = Category.build(workbook, "Клуб,номер,cтрана")
-        category.getQuestions(51).forEach { questions.add(it) }
+        val category = Category.build(workbook, "Клубы", countries, topic)
+        category.getQuestions(105).forEach { questions.add(it) }
         //categoriesOfCount.toList().sortedByDescending { (_, value) -> value }.forEachIndexed { index, (categoryName, count) ->
         //    val category = Category.build(workbook, categoryName)
         //    if (index == 0) {

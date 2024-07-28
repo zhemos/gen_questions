@@ -1,17 +1,23 @@
 package com.example.genquestions
 
 import com.example.genquestions.generate.GenerateQuestions
+import com.example.genquestions.generate.CountriesController
+import com.example.genquestions.model.Country
+import com.example.genquestions.model.Topic
+import com.example.genquestions.model.findTopic
 import javafx.fxml.FXML
+import javafx.fxml.Initializable
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
+import javafx.scene.control.ComboBox
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.TextField
 import javafx.stage.FileChooser
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
+import java.net.URL
+import java.util.*
 
 
-class HelloController {
+class HelloController : Initializable {
     @FXML
     private lateinit var textFieldInput: TextField
     @FXML
@@ -24,6 +30,8 @@ class HelloController {
     private lateinit var btnGenerate: Button
     @FXML
     private lateinit var btnGetQuestions: Button
+    @FXML
+    private lateinit var cbCategory: ComboBox<String>
 
     private val fileChooser = FileChooser()
 //    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
@@ -31,11 +39,18 @@ class HelloController {
 //        println("Handle ${exception.message} in CoroutineExceptionHandler")
 //    }
 //    private val scope = CoroutineScope(Job() + coroutineExceptionHandler + Dispatchers.Default)
+    private val countries: List<Country> = CountriesController.read()
 
     init {
+        println(countries.size)
         fileChooser.extensionFilters.addAll(
             FileChooser.ExtensionFilter("excel", "*.xlsx"),
         )
+    }
+
+    override fun initialize(p0: URL?, p1: ResourceBundle?) {
+        Topic.values().forEach { cbCategory.items.add(it.title) }
+        cbCategory.value = Topic.values().first().title
     }
 
     @FXML
@@ -52,7 +67,7 @@ class HelloController {
         }
         disableElements(true)
         try {
-            GenerateQuestions.generateQuestions(textFieldInput.text)
+            GenerateQuestions.generateQuestions(textFieldInput.text, countries, cbCategory.value.findTopic())
         } catch (e: Exception) {
             println(e.message)
             Alert(Alert.AlertType.ERROR, e.message).show()

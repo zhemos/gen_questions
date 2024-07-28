@@ -48,7 +48,7 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
         override fun getData(lang: String, row: Row): QuestionOld.Data {
             return if (lang == "ru") {
                 QuestionOld.Data(
-                    title = "Логотип какого клуба изображен на фото?",
+                    title = "Логотип какого клуба изображен?",
                     correct = "",
                     incorrect = emptyList(),
                 )
@@ -155,7 +155,7 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
         }
         override fun getDefaultData(row: Row): QuestionOld.Data {
             val index = row.getCell(1).toString().toNumber()
-            val rowFiveYears = workbook.getSheetAt(MySheet.FiveYears.index).getRow(index - 1)
+            val rowFiveYears = workbook.getSheetAt(MySheet.Recently.index).getRow(index - 1)
             return QuestionOld.Data(
                 title = rowFiveYears?.getCell(0)?.toString() ?: "",
                 correct = rowFiveYears.getCell(1).toCellString(),
@@ -207,7 +207,7 @@ sealed class TypeOfQuestions(protected val workbook: Workbook) {
         }
         override fun getDefaultData(row: Row): QuestionOld.Data {
             val index = row.getCell(1).toString().toNumber()
-            val rowCups = workbook.getSheetAt(MySheet.Country.index).getRow(index - 1)
+            val rowCups = workbook.getSheetAt(MySheet.NationalTeam.index).getRow(index - 1)
             return QuestionOld.Data(
                 title = rowCups?.getCell(0)?.toString() ?: "",
                 correct = rowCups.getCell(1).toCellString(),

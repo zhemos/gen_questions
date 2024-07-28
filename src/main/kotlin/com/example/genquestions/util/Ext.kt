@@ -17,8 +17,8 @@ fun Cell?.toCellString(): String {
     }
 }
 
-fun String.toPicture(): String {
-    return "${this.lowercase().replace(" ", "_").normalize()}$IMAGE_FORMAT"
+fun String.toPicture(suffix: String = ""): String {
+    return "${this.lowercase().replace(" ", "_").normalize()}$suffix$IMAGE_FORMAT"
 }
 
 private val REGEX_UN_ACCENT = "\\p{InCombiningDiacriticalMarks}+".toRegex()
