@@ -3,6 +3,7 @@ package com.example.genquestions.generate
 import com.example.genquestions.model.*
 import com.example.genquestions.model.question.Question
 import com.example.genquestions.util.toCellString
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -46,7 +47,6 @@ object GenerateQuestions {
 
     @Throws
     fun generateQuestions(input: String, countries: List<Country>, topic: Topic) {
-        println(input)
         val inputFile = File(input)
         val fis = FileInputStream(inputFile)
         val workbook = XSSFWorkbook(fis)
@@ -59,23 +59,38 @@ object GenerateQuestions {
             categoriesOfCount[cellCategoryName] = cellCount.toInt()
         }
         val questions = ArrayList<Question>(categoriesOfCount.values.sum())
-        val category = Category.build(workbook, "Клубы", countries, topic)
-        category.getQuestions(105).forEach { questions.add(it) }
-        //categoriesOfCount.toList().sortedByDescending { (_, value) -> value }.forEachIndexed { index, (categoryName, count) ->
-        //    val category = Category.build(workbook, categoryName)
-        //    if (index == 0) {
-        //        category.getQuestions(count).forEach { questions.add(it) }
-        //    } else {
-        //        val currentIndex = questions.size / count
-        //        println(categoryName)
-        //        println("${questions.size} $count $currentIndex")
-        //        repeat(count) {
-        //            //questions.add(((currentIndex + 1) * (it + 1)) - 1, "$categoryName${it + 1}")//4 8 12
-        //        }
-        //    }
-        //}
-        println(questions)
+//        val category = Category.build(workbook, "Клубы", countries, topic)
+//        category.getQuestions(105).forEach { questions.add(it) }
+        categoriesOfCount.toList().sortedByDescending { (_, value) -> value }.forEachIndexed { index, (categoryName, count) ->
+            val category = Category.build(workbook, categoryName, countries, topic)
+            if (index == 0) {
+                category.getQuestions(count).forEach { questions.add(it) }
+            } else {
+                val currentIndex = questions.size / count
+                println("${questions.size} $count $currentIndex")
+                category.getQuestions(count).forEachIndexed { categoryIndex, question ->
+                    questions.add(((currentIndex + 1) * (categoryIndex + 1)) - 1, question)
+                }
+            }
+        }
         println(questions.size)
+        val file = File("out/${topic.iso}")
+        val sizeChapter = 50
+        val mapper = ObjectMapper()
+        val sizeFullChapters = questions.size / sizeChapter
+        repeat(sizeFullChapters) {
+            val from = it * sizeChapter
+            val to = it * sizeChapter + sizeChapter
+            val list = questions.subList(from, to)
+            mapper.writeValue(File(file, "${it + 1}.json"), list)
+            println("${it + 1} $list ${list.size}")
+        }
+        val lastSize = questions.size - (sizeFullChapters * sizeChapter)
+        println(lastSize)
+        val lastList = questions.subList(questions.size - lastSize, questions.size)
+        mapper.writeValue(File(file, "${sizeFullChapters + 1}.json"), lastList)
+        println(lastList)
+
 //        val cell = row.createCell(0)
 //        val fos = FileOutputStream(inputFile)
 //        workbook.write(fos)

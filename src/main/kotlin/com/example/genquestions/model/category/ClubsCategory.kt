@@ -5,6 +5,7 @@ import com.example.genquestions.model.Language
 import com.example.genquestions.model.MySheet
 import com.example.genquestions.model.Topic
 import com.example.genquestions.model.question.Question
+import com.example.genquestions.util.toCellString
 import com.example.genquestions.util.toPicture
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Workbook
@@ -31,14 +32,14 @@ class ClubsCategory(
         val incorrect = when (type) {
             Type.Logo -> emptyList()
             else -> listOf(
-                row.getCell(4).toString(),
-                row.getCell(5).toString(),
-                row.getCell(6).toString(),
+                row.getCell(4).toCellString(),
+                row.getCell(5).toCellString(),
+                row.getCell(6).toCellString(),
             )
         }
         return Question.Data(
             title = type.title[language] ?: "",
-            correct = row.getCell(3).toString(),
+            correct = row.getCell(3).toCellString(),
             incorrect = incorrect,
         )
     }

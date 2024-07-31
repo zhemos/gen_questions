@@ -4,6 +4,7 @@ import com.example.genquestions.model.Category
 import com.example.genquestions.model.Language
 import com.example.genquestions.model.MySheet
 import com.example.genquestions.model.question.Question
+import com.example.genquestions.util.toCellString
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Workbook
 
@@ -18,11 +19,11 @@ class NationalTeamCategory(workbook: Workbook) : Category(workbook) {
         val correct: String
         val incorrect: List<String>
         if (row.rowNum < 3) {
-            correct = row.getCell(1).toString()
+            correct = row.getCell(1).toCellString()
             incorrect = listOf(
-                row.getCell(2).toString(),
-                row.getCell(3).toString(),
-                row.getCell(4).toString(),
+                row.getCell(2).toCellString(),
+                row.getCell(3).toCellString(),
+                row.getCell(4).toCellString(),
             )
         } else {
             val stage = Stage.build(row.getCell(1).toString())

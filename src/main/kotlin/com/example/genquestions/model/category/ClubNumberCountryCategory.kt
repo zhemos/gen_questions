@@ -32,7 +32,7 @@ class ClubNumberCountryCategory(
     override fun getData(row: Row, language: Language): Question.Data {
         return Question.Data(
             title = translateTitles[language] ?: "",
-            correct = row.getCell(1).toString(),
+            correct = row.getCell(1).toCellString(),
             incorrect = emptyList(),
         )
     }

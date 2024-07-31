@@ -14,7 +14,7 @@ enum class Topic {
     WorldCup {
         override val title: String get() = "ЧМ"
         override val isCountry: Boolean get() = false
-        override val iso: String get() = ""
+        override val iso: String get() = "world"
     };
 
     abstract val title: String

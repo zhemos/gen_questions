@@ -18,6 +18,8 @@ module com.example.genquestions {
 
     opens com.example.genquestions to javafx.fxml;
     exports com.example.genquestions;
+    exports com.example.genquestions.generate;
     exports com.example.genquestions.model;
+    exports com.example.genquestions.model.question;
     exports com.example.genquestions.model.category;
 }

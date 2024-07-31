@@ -4,6 +4,7 @@ import com.example.genquestions.model.Category
 import com.example.genquestions.model.Language
 import com.example.genquestions.model.MySheet
 import com.example.genquestions.model.question.Question
+import com.example.genquestions.util.toCellString
 import com.example.genquestions.util.toPicture
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Workbook
@@ -28,7 +29,7 @@ class CareerCategory(workbook: Workbook) : Category(workbook) {
     override fun getData(row: Row, language: Language): Question.Data {
         return Question.Data(
             title = translateTitles[language] ?: "",
-            correct = row.getCell(1).toString(),
+            correct = row.getCell(1).toCellString(),
             incorrect = emptyList(),
         )
     }
