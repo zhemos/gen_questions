@@ -14,6 +14,7 @@ class NationalityCategory(
 ) : Category(workbook) {
     override val mySheet: MySheet get() = MySheet.Nationality
     override val type: String get() = "nationality"
+    override val index: Int get() = 6
     override val translateTitles: Map<Language, String> get() = mapOf(
         Language.Russian to "Какая национальность у этого игрока?"
     )

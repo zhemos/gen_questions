@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook
 class PhotoCategory(workbook: Workbook) : Category(workbook) {
     override val mySheet: MySheet get() = MySheet.Photo
     override val type: String get() = "photo"
+    override val index: Int get() = 9
     override val translateTitles: Map<Language, String> get() = mapOf(
         Language.Russian to "Кто изображён на фото?"
     )

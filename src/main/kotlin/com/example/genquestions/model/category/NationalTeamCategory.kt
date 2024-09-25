@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook
 class NationalTeamCategory(workbook: Workbook) : Category(workbook) {
     override val mySheet: MySheet get() = MySheet.NationalTeam
     override val type: String get() = "nt"
+    override val index: Int get() = 5
     override val translateTitles: Map<Language, String> get() = mapOf()
 
     override fun getInfo(row: Row) = ""

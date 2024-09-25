@@ -15,6 +15,7 @@ class ClubNumberCountryCategory(
 
     override val mySheet: MySheet get() = MySheet.ClubNumberCountry
     override val type: String get() = "cnc"
+    override val index: Int get() = 8
     override val translateTitles: Map<Language, String> get() = mapOf(
         Language.Russian to "Угадайте футболиста"
     )

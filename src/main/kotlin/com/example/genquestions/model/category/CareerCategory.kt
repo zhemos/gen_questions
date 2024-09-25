@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook
 class CareerCategory(workbook: Workbook) : Category(workbook) {
     override val mySheet: MySheet get() = MySheet.Career
     override val type: String get() = "career"
+    override val index: Int get() = 7
     override val translateTitles: Map<Language, String> get() = mapOf(
         Language.Russian to "Угадайте игрока по его карьере"
     )

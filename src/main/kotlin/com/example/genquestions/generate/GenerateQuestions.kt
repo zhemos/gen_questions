@@ -73,7 +73,7 @@ object GenerateQuestions {
                 }
             }
         }
-        println(questions.size)
+        println("Questions size: ${questions.size}")
         val file = File("out/${topic.iso}")
         val sizeChapter = 50
         val mapper = ObjectMapper()

@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook
 class CupsCategory(workbook: Workbook) : Category(workbook) {
     override val mySheet: MySheet get() = MySheet.Cups
     override val type: String get() = "cups"
+    override val index: Int get() = 4
     override val translateTitles: Map<Language, String> get() = mapOf()
 
     override fun getInfo(row: Row) = ""

@@ -16,6 +16,7 @@ class ClubsCategory(
 ) : Category(workbook) {
     override val mySheet: MySheet get() = MySheet.Clubs
     override val type: String get() = "clubs"
+    override val index: Int get() = 1
     override val translateTitles: Map<Language, String> get() = mapOf()
 
     override fun getInfo(row: Row): String {

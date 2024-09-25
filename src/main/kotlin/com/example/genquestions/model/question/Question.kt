@@ -1,6 +1,7 @@
 package com.example.genquestions.model.question
 
 data class Question(
+    val id: Long,
     val type: String,
     val info: String,
     val data: Map<String, Data>,
@@ -12,12 +13,6 @@ data class Question(
         val incorrect: List<String>,
     )
 }
-
-fun emptyQuestion() = Question(
-    type = "default type",
-    info = "",
-    data = mapOf(),
-)
 
 /***
  * 1. Клубы

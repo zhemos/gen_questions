@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook
 class RecentlyCategory(workbook: Workbook) : Category(workbook) {
     override val mySheet: MySheet get() = MySheet.Recently
     override val type: String get() = "recently"
+    override val index: Int get() = 2
     override val translateTitles: Map<Language, String> get() = mapOf()
 
     override fun getInfo(row: Row) = ""

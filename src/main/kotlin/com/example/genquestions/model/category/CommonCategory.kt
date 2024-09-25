@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook
 class CommonCategory(workbook: Workbook) : Category(workbook) {
     override val mySheet: MySheet get() = MySheet.Common
     override val type: String get() = "common"
+    override val index: Int get() = 3
     override val translateTitles: Map<Language, String> get() = mapOf()
 
     override fun getInfo(row: Row) = ""

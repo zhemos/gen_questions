@@ -13,6 +13,7 @@ abstract class Category(workbook: Workbook) {
 
     abstract val mySheet: MySheet
     abstract val type: String
+    abstract val index: Int
     abstract val translateTitles: Map<Language, String>
 
     private val languages: List<Language> = Language.values().toList()
@@ -35,6 +36,7 @@ abstract class Category(workbook: Workbook) {
 
     private fun getQuestion(row: Row): Question {
         return Question(
+            id = "$index${row.rowNum + 1}".toLong(),
             type = type,
             info = getInfo(row),
             data = languages.associate { it.code to getData(row, it) },
